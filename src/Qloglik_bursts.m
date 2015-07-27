@@ -33,13 +33,14 @@ theta = M*params + b;
 qnew(idxtheta) = 10.^theta;
 qnew = qnew - diag(sum(qnew,2));
 
-[Co, lambda] = Cvals(qnew,A,F,td,2);
+mMax = 2; % Number of multiples of tau to use for exact correction for missed events
+[Co, lambda] = Cvals(qnew,A,F,td,mMax);
 [so, areaRo] = asymptoticRvals(qnew,A,F,td);
 if any(isinf(so))
     ll=nan;
     return;
 end
-Cs = Cvals(qnew,F,A,td,2);
+Cs = Cvals(qnew,F,A,td,mMax);
 [s_s, areaRs] = asymptoticRvals(qnew,F,A,td);
 if any(isinf(s_s))
     ll=nan;
@@ -66,11 +67,11 @@ for ii=1:nBursts
     scalefactor = zeros(numdwells,1);
     for jj=1:numdwells
         if mod(jj,2)==1
-            pF = pA * R(Co,lambda,td,so,areaRo,abs(tmpdwells(jj)-td))*qnew(A,F)*eqFFt;
+            pF = pA * R(Co,lambda,td,so,areaRo,mMax,abs(tmpdwells(jj)-td))*qnew(A,F)*eqFFt;
             scalefactor(jj) = 1./sum(pF);
             pF = pF .* scalefactor(jj);
         else
-            pA = pF * R(Cs,lambda,td,s_s,areaRs,abs(tmpdwells(jj)-td))*qnew(F,A)*eqAAt;
+            pA = pF * R(Cs,lambda,td,s_s,areaRs,mMax,abs(tmpdwells(jj)-td))*qnew(F,A)*eqAAt;
             scalefactor(jj) = 1./sum(pA);
             pA = pA .* scalefactor(jj);
         end
