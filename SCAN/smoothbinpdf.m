@@ -1,5 +1,16 @@
 function [ redist_dwells ] = smoothbinpdf( dwells, varargin )
 %SMOOTHBINPDF Smooth single channel histograms from QuB dwt
+%   REDIST_DWELLS = SMOOTHBINPDF(DWELLS) redistributes the dwells that are
+%   less than or equal to 3 times the sampling interval, which is taken as
+%   the minimum value in the DWELLS array.
+%
+%   REDIST_DWELLS = SMOOTHBINPDF(DWELLS, DT) specificies the sampling
+%   interval, DT.
+%
+%   REDIST_DWELLS = SMOOTHBINPDF(DWELLS, DT, THLD) also redistributes
+%   dwells less than or equal to THLD times DT. You can pass [] for DT to
+%   use the default value.
+%
 %   From the QuB manual (www.qub.buffalo.edu/wiki/index.php/Modeling:MIL
 %
 %   This basic binning algorithm gives misleading output for the shortest
@@ -22,7 +33,7 @@ function [ redist_dwells ] = smoothbinpdf( dwells, varargin )
 %   affect the sample duration of the following dwell?
 
 % calculate A-D interval
-if length(varargin) < 1
+if length(varargin) < 1 || isempty(varargin{1})
     dt = min(dwells);
 else
     dt = varargin{1};
@@ -47,6 +58,8 @@ idx = find(dwells <= thld);
 
 for ii = 1:length(idx)
     k = dwells(idx(ii));
+    % can k ever be one, yes, so make sure dead time is 0.05, say, and dt
+    % is 0.025 (so you don't get values down to zero.
     f = @(z) dwelltimepdf(z, dt, k);
     g = @(z) normpdf(z, k*dt, dt);
     grnd = @() normrnd(k*dt, dt, 1);
@@ -60,13 +73,16 @@ for ii = 1:length(idx)
 %     end
 end
 
-% TODO
+% TODO -- I think I did this already KKO 150913
 % * use rejection sampling to create random samples from a distribution
 % with a peak at k*dt and with linear fall off to (k-1)*dt and (k+1)*dt.
 % For example, generate random normal number and a random uniform number
 % (between 0 and 1). If the random normal number times a constant is less
 % than the target distribution (peak at k*dt, etc.) then keep the sample,
 % otherwise discard it.
+
+% See MATLAB help on Acceptance-Rejection method for generating
+% pseudorandom numbers.
 
 end
 
