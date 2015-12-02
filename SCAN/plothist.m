@@ -15,7 +15,7 @@ shuts = log10(dwells(states==0));
 % xopen = min(opens):0.05:max(opens);
 first = floor(10*min(opens))./10;
 last = ceil(10*max(opens))./10;
-xopen = first:0.1:last,0.1;
+xopen = first:0.1:last;
 xshut = min(shuts):0.1:max(shuts);
 
 openvals = hist(opens,xopen);
