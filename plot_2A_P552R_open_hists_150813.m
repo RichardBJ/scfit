@@ -21,9 +21,14 @@ shutbinwidth = 0.1;
 fprintf(logfile, 'Open binwidth: %f\nShut binwidth: %f\n', openbinwidth, shutbinwidth);
 [opencts, shutcts, xopen, xshut] = plothist(redist_rd, rs, openbinwidth, shutbinwidth);
 
-fprintf('Fitting open time histogram\n');
+% fprintf('Fitting open time histogram\n');
+% [ opentaus, openareas, ~, Nopens, ~, ~, ~, ~, ~, ~, ~, ~, ...
+%     pdfxlog, flog, ~, ~] = emdistfit(rd(rs == 1), [0.1 1], [0.3 0.7]);
+fprintf(logfile, 'In a heretical way, we are fitting the redistributed (i.e. smoothed) histogram\n');
 [ opentaus, openareas, ~, Nopens, ~, ~, ~, ~, ~, ~, ~, ~, ...
-    pdfxlog, flog, ~, ~] = emdistfit(rd(rs == 1), [0.1 1], [0.3 0.7]);
+    pdfxlog, flog, ~, ~] = emdistfit(redist_rd(rs == 1), [0.1 1], [0.3 0.7]);
+fprintf(logfile, 'Fit open times: %f\n', opentaus);
+fprintf(logfile, 'Fit open areas: %f\n', openareas);
 
 AUC_open = openbinwidth*sum(opencts);
 % AUC_open = 0.05*sum(opencts); % 0.05 binwidth from plothist
