@@ -1,5 +1,6 @@
 function [ taus, areas, loglik, N, histvals, bins, pdfx, f, g, ...
-    loghistvals, logbins, dlog, pdfxlog, flog, glog, exitflag] = emdistfit( data, init, iniw, varargin)
+    loghistvals, logbins, dlog, pdfxlog, flog, glog, exitflag ] = ...
+    emdistfit(data, init, iniw, varargin)
 %EMDISTFIT Maximum likelihood estimates of the components in a mixture of
 %exponential distributions
 %   data - column vector of data to fit
@@ -49,19 +50,38 @@ end
 datatofit = data(data>=tmin & data<=tmax);
 
 x0 = [init, iniw];
-lb = [1e-3*ones(size(init)), 1e-4*ones(size(iniw))];
-ub = [inf(size(init)), ones(size(iniw))];
+
+% ChanneLab set the lower bound for the taus to be half of the minimum
+% value that is being fit, but I don't think it has a hard limit (i.e. not
+% user-defined) on the areas/amplitudes
+% lb = [1e-3*ones(size(init)), 1e-4*ones(size(iniw))];
+lb = [0.5 * tmin * ones(size(init)), 1e-4 * ones(size(iniw))];
+
+% ChanneLab also places a hard upper-limit (i.e. written into the code and
+% not entered by the user) on the taus of five times the maximum value
+% being fit.
+% ub = [inf(size(init)), ones(size(iniw))];
+ub = [5 * tmax * ones(size(init)), ones(size(iniw))];
+
 %constrain the sum of the weights to equal 1
 Aeq = [zeros(size(init)), ones(size(iniw))];
 beq = 1;
-%the interior-point algorithm allows both linear equalities and bound
-%constraints
+
+% the interior-point algorithm allows both linear equalities and bound
+% constraints
 % options=optimset('Algorithm','interior-point','MaxFunEvals',5e3);
 options = optimoptions('fmincon','Algorithm','interior-point',...
     'MaxFunEvals',5e3,'MaxIter',5e3,'Display','final');
 
-[params, loglik, exitflag] = fmincon (@emlik, x0, [], [], Aeq, beq, lb, ub, [], options);
+% -------------------------------------------------------------------------
+% Find the maximum likelihood parameters for the
+% exponential mixture distribution
+% -------------------------------------------------------------------------
+[params, loglik, exitflag] = fmincon (@emlik, x0, [], [], Aeq, beq, lb, ...
+                                      ub, [], options);
 
+% -------------------------------------------------------------------------
+% Plot the fit and further process the fitted parameters
 taus = params(1:length(init));
 areas = params(length(init)+1:end);
 
@@ -85,14 +105,17 @@ plot(pdfxlog,sqrt(glog),'linewidth',2);
 xlabel('Log_{10} Dwell times');
 ylabel('Count (square root scale)');
 
+% -------------------------------------------------------------------------
+% likelihood function for exponential mixture distribution
+% -------------------------------------------------------------------------
     function loglik = emlik(x)
         t=x(1:length(init));
         w=x(length(init)+1:end);
         pdf = emdistpdfc (datatofit, t, w);
 %         pdf = emdistpdf (datatofit, t, w);
 %         pdf = emdistpdf(datatofit,t,w)./(1-emdistcdf(tmin,t,w));
-        %minimizing -1 * log-likelihood is equivalent to maximizing
-        %log-likelihood, so multiply by -1
+        % minimizing -1 * log-likelihood is equivalent to maximizing
+        % log-likelihood, so multiply by -1
         loglik = -1*sum(log(pdf));
     end
         

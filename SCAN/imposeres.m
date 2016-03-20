@@ -2,16 +2,18 @@ function [ dwells, states, stats ] = imposeres( dwells, states, openres, shutres
 %IMPOSERES Imposes resolutions for open and shut durations in an
 %   idealized channel recording
 %   INPUT:
-%       dwells - the duration of sojourns in the states given by the input
-%           array states
-%       states - identity of the state of each dwell time
-%       res - resolution (in milliseconds) of durations in each state
+%       dwells  - the duration of sojourns in the states given by the input
+%                 array states
+%       states  - identity of the state of each dwell time
+%       openres - resolution (in milliseconds) of durations in states other
+%                 than 0
+%       shutres - shut time resolution (in ms) of durations in state 0
 %
 %   OUTPUT:
 %       dwells - resolved durations
 %       states - states corresponding to resolved durations
-%       stats - indices of unresolved durations from original list of dwell
-%           times
+%       stats  - indices of unresolved durations from original list of
+%                dwell times
 
 tol = 1e-12;
 
