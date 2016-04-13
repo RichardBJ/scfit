@@ -9,10 +9,12 @@ function [ taushat, weightshat, loglik, exitflag ] = emdistfit(data, taus, weigh
 %   Parameters:
 %       'min' - fit data above min
 %       'max' - fit data below max
-%       'taulower'
-%       'tauupper'
-%       'weightlower'
-%       'conditional'
+%       'taulower' - lower bound on taus [default: 0.5 * min(data)]
+%       'tauupper' - upper bound on taus [default: 5 * max(data)]
+%       'weightlower' - lower bound on weights [default: 1e-4]
+%       'conditional' - true/false to use conditional distribution (i.e.
+%           p(x) given that x was in the observed range of value)
+%           [default: true]
 
 % size the arrays so that data is a column vector and
 % init and iniw are row vectors
