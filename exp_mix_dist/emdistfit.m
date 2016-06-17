@@ -70,6 +70,20 @@ ub = [tauupper, weightupper];
 Aeq = [zeros(size(taus)), ones(size(taus))];
 beq = 1;
 
+% Contrain the mean of the exponential components to be in increasing order
+% If there are n components: tau1, tau2, ..., tau_n, weight1, weight2, ..., weight_n
+% Then this constraint is specified as 
+% [1 -1  0  0 ... 0 0 ... 0;      [0;
+%  0  1 -1  0 ... 0 0 ... 0;  <=   0;
+%  0  0  1 -1 ... 0 0 ... 0]       0]
+ntaus = length(taus);
+nweights = length(weights);
+assert(ntaus == nweights);
+A = zeros(ntaus - 1, ntaus + nweights);
+b = zeros(ntaus - 1, 1);
+A(sub2ind(size(A), 1:(ntaus - 1), 1:(ntaus - 1))) = 1;
+A(sub2ind(size(A), 1:(ntaus - 1), 2:ntaus)) = -1;
+
 % the interior-point algorithm allows both linear equalities and
 % bound constraints
 % options=optimset('Algorithm','interior-point','MaxFunEvals',5e3);
@@ -80,17 +94,17 @@ options = optimoptions('fmincon','Algorithm','interior-point',...
 % Find the maximum likelihood parameters for the
 % exponential mixture distribution
 % -------------------------------------------------------------------------
-[params, loglik, exitflag] = fmincon (@emlik, x0, [], [], Aeq, beq, lb, ...
+[params, loglik, exitflag] = fmincon (@emlik, x0, A, b, Aeq, beq, lb, ...
                                       ub, [], options);
-taushat = params(1:length(taus));
-weightshat = params(length(taus)+1:end);                                  
+taushat = params(1:ntaus);
+weightshat = params((ntaus+1):end);                                  
 
 % -------------------------------------------------------------------------
 % likelihood function for exponential mixture distribution
 % -------------------------------------------------------------------------
     function loglik = emlik(x)
-        t=x(1:length(taus));
-        w=x(length(weights)+1:end);
+        t=x(1:ntaus);
+        w=x((ntaus+1):end);
         
         if conditionalfit
             pdf = emdistpdfc(datatofit, t, w);
