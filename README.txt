@@ -13,7 +13,13 @@ This application takes an idealized list of openings and closings from single ch
 Getting Started
 --------------------------------
 
-Add all the folders to the Matlab path. This can be done in the Current Folder window, by selecting all the folders, right clicking and then selecting Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the SC_ML_fit directory is C:\MATLAB\SC_ML_fit then `addpath C:\MATLAB\SC_ML_fit\src C:\MATLAB\SC_ML_fit\SCAN C:\MATLAB\SC_ML_fit\Qmatrix C:\MATLAB\SC_ML_fit\exp_mix_dist` will add the appropriate directories. 
+Add all the folders to the Matlab path. This can be done in the Current Folder window, by selecting all the folders, right clicking and then selecting Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the SC_ML_fit directory is `C:\MATLAB\SC_ML_fit` then 
+
+```
+addpath C:\MATLAB\SC_ML_fit\src C:\MATLAB\SC_ML_fit\SCAN C:\MATLAB\SC_ML_fit\Qmatrix C:\MATLAB\SC_ML_fit\exp_mix_dist
+```
+
+will add the appropriate directories. 
 
 
 Building MEX files -- compiled Matlab code
@@ -87,7 +93,7 @@ See the test file `qtest.xlsx` for the format of Excel model files
 Imposing open and shut time resolutions
 ---------------------------------------
 
-````
+```
 %% Impose the resolution
 open_deadtime = 0.04; % milliseconds
 shut_deadtime = 0.04;
