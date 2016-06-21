@@ -40,7 +40,9 @@ The fitting should complete in less than a minute, and the results will be saved
 
 ### Fitting your own data
 
-Try running the 
+Try running the script `runFitting_QuB_model.m` or `runFitting_Excel_model.m` for mechanisms in QuB qmf format and Excel format, respectively.
+
+
 Loading in idealized openings and closings
 ------------------------------------------
 
