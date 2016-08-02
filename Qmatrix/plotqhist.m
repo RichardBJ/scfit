@@ -22,6 +22,7 @@ function [openbins, openhist, xopen, openpdfhjc, openpdfexact, ...
 %             note that the exact pdf will also need to be scaled so
 %             the area from the dead time to the maximum dwell time is one.
 %       'Plot'(optional) - 'on' (default) or 'off'
+%       'BarColor' (optional) - color of histogram bars
 
 p = inputParser;
 addParameter(p,'nbins',50,@isnumeric);
@@ -29,12 +30,14 @@ addParameter(p,'OpenInitialVal',min(log10(opens)),@isnumeric);
 addParameter(p,'ShutInitialVal',min(log10(shuts)),@isnumeric);
 addParameter(p,'NormMode','pdf',@(x) ischar(x)&&(strcmpi(x,'pdf')||strcmpi(x,'hist')));
 addParameter(p,'Plot','on',@(x) ischar(x)&&(strcmpi(x,'on')||strcmpi(x,'off')));
+addParameter(p, 'BarColor', [0.230 0.299 0.754]);
 parse(p,varargin{:});
 nbins = p.Results.nbins;
 xopenini = p.Results.OpenInitialVal;
 xshutini = p.Results.ShutInitialVal;
 mode = p.Results.NormMode;
 PLOTFLAG = p.Results.Plot;
+barclr = p.Results.BarColor;
 
 [openhist,openbins] = hist(log10(opens),nbins);
 dopen = mean(diff(openbins));
@@ -57,7 +60,7 @@ end
 
 if strcmpi(PLOTFLAG,'on')
     figure ('Name','Open Time Histogram', 'NumberTitle', 'off');
-    bar(openbins,sqrt(openhist));
+    bar(openbins,sqrt(openhist), 1, 'facecolor', barclr);
     hold on;
     plot(xopen,sqrt(openpdfhjc),'k','LineWidth',2);
     plot(xopen,sqrt(openpdfexact),':k','LineWidth',2);
@@ -86,7 +89,7 @@ end
 
 if strcmpi(PLOTFLAG,'on')
     figure ('Name', 'Shut Time Histogram', 'NumberTitle', 'off');
-    bar(shutbins,sqrt(shuthist));
+    bar(shutbins,sqrt(shuthist), 1, 'facecolor', barclr);
     hold on;
     plot(xshut,sqrt(shutpdfhjc),'k','LineWidth',2);
     plot(xshut,sqrt(shutpdfexact),':k','LineWidth',2);

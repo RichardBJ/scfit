@@ -1,6 +1,16 @@
 function [ durations, amplitudes, properties, calibration, varargout] = scanread( filename )
 %SCANREAD Read transition properties from a SCAN.SCN file
-%   Detailed explanation goes here
+%  INPUT
+%    filename (optional) - path to the SCN file
+%
+%  OUTPUT
+%    durations - array of single channel dwell times
+%    amplitudes - array of the amplitudes of the states corresponding to
+%        the dwell times in DURATIONS. Note that these are integer values
+%        and should be scaled by CALIBRATION to get units of pA, e.g.
+%    properties
+%    calibration
+%    varargout...
 
 if nargin<1 || isempty(filename)
     [filename, filePath] = uigetfile({'*.scn','SCAN idealization file'});
