@@ -46,8 +46,11 @@ phiA = phi(qnew,A,F,td);
 % likelihood, will run into numerical problems because the probabilities
 % will almost always be less than one and the likelihood will therefore
 % decay with increasing number of dwell times.  To avoid this, we
-% continually scale the inital probability vector (see Rabiner 1989
-% and Qin et al (1997) Proc R Soc Lond B
+% continually scale the inital probability vector (see Rabiner 1989 A
+% tutorial on hidden Markov models and selected applications in speech
+% recognition Proc. IEEE 77, 257-286 and Qin et al (1997) Maximum
+% likelihood estimation of aggregated Markov processes Proc R Soc Lond B
+% 264, 375-383
 
 scalefactor = zeros(ndwells,1);
 p = phiA;
