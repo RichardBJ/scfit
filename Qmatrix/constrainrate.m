@@ -13,28 +13,36 @@ function [ A, B ] = constrainrate (q, idxAll, type, sourceIdx, targetIdx , c)
 %   c (optional) - vector of the constants for the constraints.  CONSTRAINRATE will
 %       return the log10(c) in B.  If c is not given, it is assumed to be 1
 
+% For backwards compatability, allow either sourceIdx or targetIdx to be
+% used with the `fix' type
+
+num_constraints = max(length(sourceIdx), length(targetIdx));
 if nargin < 6
-    c=ones(1,length(sourceIdx));
+    c = ones(1, num_constraints);
 end
 if numel(c) == 1
-    c = repmat(c,numel(sourceIdx),1);
+    c = repmat(c, num_constraints, 1);
 end
 
 switch type
     case 'fix'
-        A = zeros(length(sourceIdx),length(idxAll));
-        B = zeros(length(sourceIdx),1);
-%         idx2 = interp1(idxAll, 1:length(idxAll), sourceIdx);
-        [~,idx2] = ismember(sourceIdx, idxAll);
-        for ii=1:length(sourceIdx)
-            A(ii,idx2(ii)) = 1;
+        assert(~(isempty(sourceIdx) && isempty(targetIdx)), ...
+               'Both sourceIdx and targetIdx are empty!');
+        if isempty(sourceIdx)
+            constraintIdx = targetIdx;
+        else
+            constraintIdx = sourceIdx;
+        end
+        A = zeros(length(constraintIdx), length(idxAll));
+        B = zeros(length(constraintIdx), 1);
+        [~, idx2] = ismember(constraintIdx, idxAll);
+        for ii=1:length(constraintIdx)
+            A(ii, idx2(ii)) = 1;
             B(ii) = log10(c(ii));
         end
     case 'constrain'
         A = zeros(length(sourceIdx),length(idxAll));
         B = zeros(length(sourceIdx),1);
-%         idx2 = interp1(idxAll, 1:length(idxAll), sourceIdx);
-%         idx3 = interp1(idxAll, 1:length(idxAll), targetIdx);
         [~,idx2] = ismember(sourceIdx, idxAll);
         [~,idx3] = ismember(targetIdx, idxAll);
         for ii=1:length(sourceIdx)
@@ -44,7 +52,6 @@ switch type
         end
     case 'loop'
         A = zeros(1,length(idxAll));
-%         idx2 = interp1(idxAll,1:length(idxAll),[sourceIdx, targetIdx]);
         [~,idx2] = ismember([sourceIdx,targetIdx], idxAll);
         A(idx2) = [ones(1,length(sourceIdx)), -1*ones(1,length(targetIdx))];
         B = log10(c(1));
