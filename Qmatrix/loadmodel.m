@@ -35,10 +35,19 @@ numrates = size(rateTable, 1);
 numconstraints = size(constraintTable, 1);
 
 % Open states
+% For fitting gating mechanism to single channel openings/closings, the
+% compiled Qmatrixloglik and company functions expect a 1-by-n array for
+% the open states and shut states
 A = stateTable.State(stateTable.Conductance ~= 0);
+if size(A, 1) > 1
+    A = A';
+end
 
 % Shut states
 F = stateTable.State(stateTable.Conductance == 0);
+if size(F, 1) > 1
+    F = F';
+end
 
 % Load the Q matrix
 q = zeros(numstates);
