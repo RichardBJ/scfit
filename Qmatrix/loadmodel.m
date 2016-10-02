@@ -67,6 +67,9 @@ idxconstrain = zeros(numconstraints, 1);
 source_rates = zeros(sum(strcmp(constraintTable.Type, 'constrain')), 1);
 ii = 1;
 for row = 1:size(constraintTable, 1)
+    if isnan(constraintTable.State1(row))
+        continue
+    end
     tgt = sub2ind(size(q), constraintTable.State1(row), constraintTable.State2(row));
     conType = char(constraintTable.Type(row));
     switch conType
