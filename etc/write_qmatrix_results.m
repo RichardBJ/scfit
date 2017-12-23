@@ -1,13 +1,18 @@
 function write_qmatrix_results( qmffile, idealizedfile, ...
     qfit, A, F, idxall, idxvary, td, tcrit, numdwells, runtime, ll, ...
-    eq_Po, opentaus, openareas, shuttaus, shutareas)
+    eq_Po, opentaus, openareas, shuttaus, shutareas, varargin)
 %WRITE_QMATRIX_RESULTS Write a comma delimited file with results of
 %maximumum likelihood fitting of rate constants to idealized dwells
 
 dateNum = now();
-[~,qmfname,~] = fileparts(qmffile);
-[~,idlname,~] = fileparts(idealizedfile);
-outfilename = sprintf('%s - %s - %s.csv',qmfname,idlname,datestr(dateNum,'yymmdd HH_MM_SS'));
+
+if isempty(varargin)
+    [~,qmfname,~] = fileparts(qmffile);
+    [~,idlname,~] = fileparts(idealizedfile);
+    outfilename = sprintf('%s - %s - %s.csv',qmfname,idlname,datestr(dateNum,'yymmdd HH_MM_SS'));
+else
+    outfilename = varargin{1};
+end
 
 nstates = length(qfit);
 assert(nstates == (numel(A)+numel(F)));

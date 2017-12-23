@@ -1,0 +1,148 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration build-checksum="1872553" file="C:\Users\MKO\Kevin\scfit\SCFit.prj" location="C:\Users\MKO\Kevin\scfit" name="SCFit" preferred-package-location="C:\Users\MKO\Kevin\scfit\SCFit\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>SCFit</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>1.0</param.version>
+    <param.authnamewatermark>Kevin Ogden</param.authnamewatermark>
+    <param.email>ogdenkev@gmail.com</param.email>
+    <param.company />
+    <param.summary>Fit rates in a single channel gating mechanism</param.summary>
+    <param.description>Estimate rate constants in a single channel gating mechanism by maximizing the likelihood of a sequence of idealized openings and closing. An exact correction for missed events is used to calculate the likelihood.</param.description>
+    <param.screenshot />
+    <param.guid />
+    <param.installpath.string>\SCFit\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}\SCFit\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\SCFit\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\SCFit\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\SCFit</param.logdir>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>SCFitInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>false</param.windows.command.prompt>
+    <param.create.log>true</param.create.log>
+    <param.log.file>SCFit.log</param.log.file>
+    <param.native.matlab>false</param.native.matlab>
+    <param.checkbox>false</param.checkbox>
+    <param.example />
+    <param.help.text />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.version />
+      <param.company />
+      <param.screenshot />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.logdir />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.native.matlab />
+      <param.checkbox />
+      <param.example />
+      <param.help.text />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\SCFit.mlapp</file>
+    </fileset.main>
+    <fileset.resources />
+    <fileset.package />
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\etc\write_qmatrix_results.m</file>
+      <file>${PROJECT_ROOT}\exp_mix_dist\emdistcdf.m</file>
+      <file>${PROJECT_ROOT}\exp_mix_dist\emdistpdf.m</file>
+      <file>${PROJECT_ROOT}\exp_mix_dist\emdistpdflog10.m</file>
+      <file>${PROJECT_ROOT}\Qloglik_bursts_mex.mexw64</file>
+      <file>${PROJECT_ROOT}\Qmatrix\constrainrate.m</file>
+      <file>${PROJECT_ROOT}\Qmatrix\eqoccupy.m</file>
+      <file>${PROJECT_ROOT}\Qmatrix\loadmodel.m</file>
+      <file>${PROJECT_ROOT}\Qmatrix\mrconstraints.m</file>
+      <file>${PROJECT_ROOT}\Qmatrix\plotqhist.m</file>
+      <file>${PROJECT_ROOT}\Qmatrix\qmatopenshutpdf.m</file>
+      <file>${PROJECT_ROOT}\Qmatrix\qmatvals.m</file>
+      <file>${PROJECT_ROOT}\Qmatrixloglik_mex.mexw64</file>
+      <file>${PROJECT_ROOT}\SCAN\concatdwells.m</file>
+      <file>${PROJECT_ROOT}\SCAN\dwtread.m</file>
+      <file>${PROJECT_ROOT}\SCAN\imposeres.m</file>
+      <file>${PROJECT_ROOT}\SCAN\plothist.m</file>
+      <file>${PROJECT_ROOT}\SCAN\scanread.m</file>
+      <file>${PROJECT_ROOT}\src\asymptoticRvals.m</file>
+      <file>${PROJECT_ROOT}\src\CHSvectors.m</file>
+      <file>${PROJECT_ROOT}\src\constrainqr.m</file>
+      <file>${PROJECT_ROOT}\src\Cvals.m</file>
+      <file>${PROJECT_ROOT}\src\Cvals_ini.m</file>
+      <file>${PROJECT_ROOT}\src\detW.m</file>
+      <file>${PROJECT_ROOT}\src\Dvals.m</file>
+      <file>${PROJECT_ROOT}\src\dWds.m</file>
+      <file>${PROJECT_ROOT}\src\eG.m</file>
+      <file>${PROJECT_ROOT}\src\fzeroKO.m</file>
+      <file>${PROJECT_ROOT}\src\G.m</file>
+      <file>${PROJECT_ROOT}\src\hjcdist.m</file>
+      <file>${PROJECT_ROOT}\src\hjcfit.m</file>
+      <file>${PROJECT_ROOT}\src\L.m</file>
+      <file>${PROJECT_ROOT}\src\phi.m</file>
+      <file>${PROJECT_ROOT}\src\Qloglik_bursts.m</file>
+      <file>${PROJECT_ROOT}\src\Qmatrixloglik.m</file>
+      <file>${PROJECT_ROOT}\src\R.m</file>
+      <file>${PROJECT_ROOT}\src\rootsdetW.m</file>
+      <file>${PROJECT_ROOT}\src\S.m</file>
+      <file>${PROJECT_ROOT}\src\W.m</file>
+    </fileset.depfun>
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\SCFit\for_testing" name="SCFit.exe" optional="false">C:\Users\MKO\Kevin\scfit\SCFit\for_testing\SCFit.exe</file>
+      <file location="${PROJECT_ROOT}\SCFit\for_testing" name="splash.png" optional="false">C:\Users\MKO\Kevin\scfit\SCFit\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\SCFit\for_testing" name="readme.txt" optional="true">C:\Users\MKO\Kevin\scfit\SCFit\for_testing\readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2017b</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>6.1</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
