@@ -1,7 +1,7 @@
 Single channel mechanism fitting
 ================================
 
-17 June 2016
+12 February 2018
 
 
 Description
@@ -13,7 +13,7 @@ This application takes an idealized list of openings and closings from single ch
 Getting Started
 --------------------------------
 
-Add all the folders to the Matlab path. This can be done in the Current Folder window, by selecting all the folders, right clicking and then selecting Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the SC_ML_fit directory is `C:\MATLAB\SC_ML_fit` then 
+Add all the folders to the Matlab path. This can be done in the Current Folder window, by selecting all the folders, right clicking and then selecting Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the `SC_ML_fit directory` is `C:\MATLAB\SC_ML_fit` then 
 
 ```
 addpath C:\MATLAB\SC_ML_fit\src C:\MATLAB\SC_ML_fit\SCAN C:\MATLAB\SC_ML_fit\Qmatrix C:\MATLAB\SC_ML_fit\exp_mix_dist
@@ -27,7 +27,7 @@ Building MEX files -- compiled Matlab code
 
 The application consists of a number of Matlab functions and will run after adding the `src`, `SCAN`, `Qmatrix`, and `exp_mix_dist` folders to the Matlab path. However, considerable increases in the speed of fitting can be achieved by compiling a few of the bottleneck functions.
 
-To compile these functions, add the `build` directory to the Matlab path and then run the `generate_Qmatrix_C_code_v2.m` script. This will compile three functions: Qmatrixloglik, Qloglik_bursts, and hjcdist. It will also generate a `codegen` folder that contains all the code needed to compile these functions, but all that's needed are the three MEX files.
+To compile these functions, add the `build` directory to the Matlab path and then run the `generate_Qmatrix_C_code_v2.m` script. This will compile three functions: Qmatrixloglik, `Qloglik_bursts`, and hjcdist. It will also generate a `codegen` folder that contains all the code needed to compile these functions, but all that's needed are the three MEX files.
 
 
 Quick start
