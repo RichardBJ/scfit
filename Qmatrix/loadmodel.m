@@ -1,5 +1,5 @@
-function [q, A, F, idxall, gamma, xi, idxvary, idxconstrain, filename] = ...
-    loadmodel(filename)
+function [q, A, F, idxall, gamma, xi, idxvary, idxconstrain, filename, ...
+    statenames] = loadmodel(filename)
 %LOADMODEL Load a single channel gating model from an Excel workbook
 %   The Excel workbook must have three tabs named `States', `Rates', and
 %   `Constraints'.  Each of these sheets stores a table of data with a
@@ -20,9 +20,15 @@ end
 
 % Load model from Excel
 % -------------------------------------------------------------------------
+sheetopts = detectImportOptions(filename, 'Sheet', 'States');
+idx = strcmp(sheetopts.VariableNames, 'Name');
+if any(idx)
+    sheetopts.VariableTypes{idx} = 'char';
+end
+sheetopts = setvaropts(sheetopts, 'TreatAsMissing', {'NA', 'N/A', '.'});
 stateTable = readtable(filename, ...
-                       'Sheet', 'States', ...
-                       'TreatAsEmpty', {'NA', 'N/A', '.'});
+                       sheetopts, ...
+                       'Sheet', 'States');
 rateTable  = readtable(filename, ...
                        'Sheet', 'Rates', ...
                        'TreatAsEmpty', {'NA', 'N/A', '.'});
@@ -33,6 +39,13 @@ constraintTable  = readtable(filename, ...
 numstates = size(stateTable, 1);
 numrates = size(rateTable, 1);
 numconstraints = size(constraintTable, 1);
+
+% State names for display using view(biograph(q))
+if any(strcmp(stateTable.Properties.VariableNames, 'Name'))
+    statenames = stateTable.Name;
+else
+    statenames = [];
+end
 
 % Open states
 % For fitting gating mechanism to single channel openings/closings, the
@@ -80,6 +93,10 @@ for row = 1:size(constraintTable, 1)
             src = sub2ind(size(q), src(1), src(2));
             source_rates(ii) = src;
             ii = ii + 1;
+        otherwise
+            error(['The constraint type for row %d in the constraints table\n', ...
+                'was "%s", but must be one of "fix" or "constrain".'], ...
+                row, conType);
     end
     [gamma(row, :), xi(row)] = constrainrate(q, idxall, conType, src, tgt, constraintTable.Value(row));
     idxconstrain(row) = tgt;
@@ -88,6 +105,13 @@ end
 % Microscopic Reversibility
 % -------------------------------------------------------------------------
 [gamma, xi ,~, idxMR] = mrconstraints(q, idxall, idxconstrain, [], gamma, xi);
+
+% Return if there are no rates to constrain for microscopic reversibility
+% which is indicated by a blank idxMR array
+if isempty(idxMR)
+    idxvary = setdiff(idxall, idxconstrain);
+    return
+end
 
 % Choose the rates to be constrained
 % -------------------------------------------------------------------------
