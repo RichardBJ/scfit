@@ -13,7 +13,9 @@ This application takes an idealized list of openings and closings from single ch
 Getting Started
 --------------------------------
 
-Add all the folders to the Matlab path. This can be done in the Current Folder window, by selecting all the folders, right clicking and then selecting Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the `SC_ML_fit directory` is `C:\MATLAB\SC_ML_fit` then 
+A standalone GUI application can be [downloaded](https://github.com/ogdenkev/scfit/releases/download/v0.1.0-alpha/SCFit_Installer.zip) and installed by running SCFitInstaller_web.exe.
+
+To use the source code, add all the folders to the Matlab path. This can be done in the Current Folder window, by selecting all the folders, right clicking and then selecting Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the `SC_ML_fit directory` is `C:\MATLAB\SC_ML_fit` then 
 
 ```
 addpath C:\MATLAB\SC_ML_fit\src C:\MATLAB\SC_ML_fit\SCAN C:\MATLAB\SC_ML_fit\Qmatrix C:\MATLAB\SC_ML_fit\exp_mix_dist
