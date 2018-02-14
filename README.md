@@ -85,12 +85,35 @@ q = q*1e-3;
 
 ### Excel model
 
-See the test file `qtest.xlsx` for the format of Excel model files
+An ion channel gating mechanism can be specified in an Excel workbook (.xlsx). The workbook must contain at least three sheets, named `States`, `Rates`, and `Constraints`. All data must start in the first column, i.e. cell A1, in each tab.
 
-```
-[q, A, F, idxall, idxvary, gamma, xi, fname] = qmatxlsread("qtest.xlsx")
-```
+#### States Worksheet
 
+The States tab specifies how many states the model will have. It must contain at least two columns named `State` and `Conductance`. An optional third column named `Name` may also be present.  Any other columns are ignored, but may be useful for keeping notes on the states in the model.
+
+The State column contains the number of the state in the model. State numbers must start at 1 (for the first state) and increase by 1 for each additional state. Thus, this column should simply be number from 1 to `N` where `N` is the number of states in the model.
+
+The Conductance column should contain the conductance of the state. Any conductance equal to zero (0) will be considered a shut state and any state with a conductance not equal to zero will be considered open.
+
+The Name column, if present, can be a name for the state.  It is best not to leave any state unnamed. Rather, simply omit the Name column, or create a filler name, like `State3`.
+
+#### Rates Worksheet
+
+The Rates tab specifies the connectivity between states in the model. It must contain at least three columns named `State1`, `State2`, and `Value`. It can also contain other columns, but these will be ignored. Hopefully this is straightforward, but every rate in the mechanism corresponds to a transition from one state to another. Hence, `State1` is the number of the first state in the transition and `State2` is the second state. `Value` is the rate constant for that transition. 
+
+#### Constraints
+
+The Constraints tab specifies any constraints in the model. Currently only 2 types of constraints are accepted in the Constraints table: `fix` and `constrain`. These should be sufficient to specify any physical constraint on the model (but what about [microscopic reversibility](#microscopic-reversibility)?).
+
+The Constraints tab must have 5 columns named `State1`, `State2`, `Type`, `SourceRate`, and `Value`. Other columns may be present, but they will be ignored. As in the Rates worksheet, `State1` and `State2` specify the state numbers for the starting and ending states of the transition whose rate should be constrained. The `Type` for each constraint must be either `fix` or `constrain`. `SourceRate` is used only for the `constrain` type (see [below](#constrain-rates)).
+
+##### Fix Rates
+
+The `fix` type of constraint will simply set the rate from `State1` to `State2` to `Value`. The `SourceRate` column is ignored for this type of constraint.
+
+##### Constrain Rates
+
+The `constrain` type of constraint will set the rate from `State1` to `State2` to some multiple of `SourceRate`. The multiplier is given by the `Value` column. `SourceRate` must be a comma-separated string of the form `N1,N2` where `N1` is the number of the first state in the source transition rate and `N2` is the number of the second state in the source transition.
 
 Imposing open and shut time resolutions
 ---------------------------------------
