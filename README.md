@@ -89,6 +89,17 @@ An ion channel gating mechanism can be specified in an Excel workbook (.xlsx). T
 
 #### States Worksheet
 
+| State | Conductance | Name  | Notes |
+|-------|-------------|-------|-------|
+| 1     | 0           | R     | shut  |
+| 2     | 0           | RA    | shut  |
+| 3     | 0           | RA2   | shut  |
+| 4     | 0           | RA2f  | shut  |
+| 5     | 0           | RA2s  | shut  |
+| 6     | 1           | RA2fs | open  |
+| 7     | 0           | D1    | shut  |
+| 8     | 0           | D2    | shut  |
+
 The States tab specifies how many states the model will have. It must contain at least two columns named `State` and `Conductance`. An optional third column named `Name` may also be present.  Any other columns are ignored, but may be useful for keeping notes on the states in the model.
 
 The State column contains the number of the state in the model. State numbers must start at 1 (for the first state) and increase by 1 for each additional state. Thus, this column should simply be number from 1 to `N` where `N` is the number of states in the model.
@@ -99,9 +110,26 @@ The Name column, if present, can be a name for the state.  It is best not to lea
 
 #### Rates Worksheet
 
+| State1 | State2 | Value  | Note   |
+|--------|--------|--------|--------|
+| 1      | 2      | 0.0632 | 2*kon  |
+| 2      | 1      | 1.01   | koff   |
+| 2      | 3      | 0.0316 | kon    |
+| 3      | 2      | 2.02   | 2*koff |
+| 3      | 4      | 3.14   | kfp    |
+
 The Rates tab specifies the connectivity between states in the model. It must contain at least three columns named `State1`, `State2`, and `Value`. It can also contain other columns, but these will be ignored. Hopefully this is straightforward, but every rate in the mechanism corresponds to a transition from one state to another. Hence, `State1` is the number of the first state in the transition and `State2` is the second state. `Value` is the rate constant for that transition. 
 
 #### Constraints
+
+| State1 | State2 | Type      | SourceRate | Value |
+|--------|--------|-----------|------------|-------|
+| 2      | 3      | constrain | 1,2        | 0.5   |
+| 3      | 2      | constrain | 2,1        | 2     |
+| 4      | 6      | constrain | 3,4        | 1     |
+| 6      | 4      | constrain | 3,5        | 1     |
+| 5      | 6      | constrain | 4,3        | 1     |
+| 6      | 5      | fix       |            | 0.05  |
 
 The Constraints tab specifies any constraints in the model. Currently only 2 types of constraints are accepted in the Constraints table: `fix` and `constrain`. These should be sufficient to specify any physical constraint on the model (but what about [microscopic reversibility](#microscopic-reversibility)?).
 
@@ -125,4 +153,40 @@ shut_deadtime = 0.04;
 [resolved_dwells,resolved_states] = imposeres (durations, amp, open_deadtime, shut_deadtime);
 ```
 
+### Microscopic Reversibility
 
+Microscopic reversibility is enforced on all single channel gating mechanisms
+using the minimum spanning tree method of Colquhoun et al. (2004). Each mechnism
+is treated as an undirected graph with the states equivalent to
+nodes and the transitions between states equivalent to edges in the graph.
+Then a set of rates is found that will be constrained to enforce microscopic
+reversibility.
+
+Essentially, a minimum spanning tree is found in the graph that represents the gating model.
+Rates in the mechanism with physical or theoretical contraints are assigned
+a weight in the undirected graph to ensure they would be included in the minimum
+spanning tree, if possible.
+Once the minimum spanning tree is found, graph edges not part of the MST are
+selected to be constrained.  Edges correspond to transitions between states (i.e. rates) in
+the gating mechanism, and because each transition is reversible there are two
+rates associated with each edge. Therefore, given an edge not in the MST, there are
+two choices for which rate to constrain, and one of the rates is arbitrarily
+selected.
+
+For each rate selected to be constrained so that the mechanism obeys microscopic
+reversibility, one of the cycles in the mechanism that contains the rate is
+found by determining the shortest path between the pair of states connected by
+the rate's corresponding transition. This cycle was used to set the contraint.
+
+After constraining rates to enfoce microscopic reversibilty, physical or theoretical constraints are added.
+
+### References
+
+1. Colquhoun D, Hatton CJ, Hawkes AG (2003) The quality of maximum likelihood estimates of ion channel rate constants. J Physiol 547:699–728 
+1. Colquhoun D, Hawkes AG, Srodzinski K (1996) Joint Distributions of Apparent Open and Shut Times of Single-Ion Channels and Maximum Likelihood Fitting of Mechanisms. Philosophical Transactions: Mathematical, Physical and Engineering Sciences 354:2555–2590 
+1. Hawkes AG, Jalali A, Colquhoun D (1990) The Distributions of the Apparent Open Times and Shut Times in a Single Channel Record when Brief Events Cannot Be Detected. Philosophical Transactions: Physical Sciences and Engineering 332:511–538 
+1. Hawkes AG, Jalali A, Colquhoun D (1992) Asymptotic Distributions of Apparent Open Times and Shut Times in a Single Channel Record Allowing for the Omission of Brief Events. Philosophical Transactions: Biological Sciences 337:383–404 
+1. Colquhoun D, Dowsland KA, Beato M, Plested AJR (2004) How to Impose Microscopic Reversibility in Complex Reaction Mechanisms. Biophysical Journal 86:3510–3518
+1. Jalali A, Hawkes AG (1992) Generalised Eigenproblems Arising in Aggregated Markov Processes Allowing for Time Interval Omission. Advances in Applied Probability 24:302–321 
+1. Qin F, Auerbach A, Sachs F (1996) Estimating single-channel kinetic parameters from idealized patch-clamp data containing missed events. Biophys J 70:264–280 
+1. Golub, G. H., and C. F. Van Loan (1989) Matrix Computations. Johns Hopkins University Press, Baltimore.
