@@ -3,7 +3,7 @@
     <param.appname>SCFit</param.appname>
     <param.icon />
     <param.icons />
-    <param.version>1.0</param.version>
+    <param.version>0.2</param.version>
     <param.authnamewatermark>Kevin Ogden</param.authnamewatermark>
     <param.email>ogdenkev@gmail.com</param.email>
     <param.company />
@@ -40,7 +40,6 @@
     <unset>
       <param.icon />
       <param.icons />
-      <param.version />
       <param.company />
       <param.screenshot />
       <param.guid />
@@ -102,7 +101,7 @@
       <file>${PROJECT_ROOT}\src\fzeroKO.m</file>
       <file>${PROJECT_ROOT}\src\G.m</file>
       <file>${PROJECT_ROOT}\src\hjcdist.m</file>
-      <file>${PROJECT_ROOT}\src\hjcfit.m</file>
+      <file>${PROJECT_ROOT}\src\hjcfit_20180130.m</file>
       <file>${PROJECT_ROOT}\src\L.m</file>
       <file>${PROJECT_ROOT}\src\phi.m</file>
       <file>${PROJECT_ROOT}\src\Qloglik_bursts.m</file>

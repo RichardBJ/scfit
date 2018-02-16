@@ -25,16 +25,20 @@ function [ params, ll, qnew, hessian, covars, corrmat, history] = hjcfit_2018013
 %       optimize (optional) - true or false
 %       options (optional) - options for the minimizer
 %       tcrit (required if fitting bursts)
+%       hFig (optional) - array of axes handles for plotting
+%       txtArea (optional) - handle to text area for displaying fitting
+%       iterations
 
 x0 = log10(q(idxVary));
 options = optimoptions('fminunc','Algorithm','quasi-newton',...
-        'Display','iter','OutputFcn',@outfnx1,'MaxFunEvals',300*numel(x0));
+        'Display','off','OutputFcn',@outfnx1,'MaxFunEvals',300*numel(x0));
 
 args = inputParser;
 addParameter(args, 'optimize', true);
 addParameter(args, 'options', options);
 addParameter(args, 'tcrit', Inf);
 addParameter(args, 'hFig', [], @(x) isempty(x) || numel(x) == 2);
+addParameter(args, 'txtArea', [], @(x) isgraphics(x, 'uitextarea'));
 parse(args, varargin{:});
 
 optimize = args.Results.optimize;
@@ -233,7 +237,18 @@ warning(warnstate);
                 
                 % Concatenate current point and objective function value with history.
                 history.fval = [history.fval; optimValues.fval];
-                history.q = cat(3,history.q,qout);                
+                history.q = cat(3,history.q,qout);
+                
+                % Print message to figure
+                if ~isempty(args.Results.txtArea)
+                    txt = args.Results.txtArea.Value;
+                    msg = sprintf('%d, %f, %d, %f', ...
+                              optimValues.iteration, ...
+                              optimValues.fval, ...
+                              optimValues.funccount, ...
+                              optimValues.firstorderopt);
+                	args.Results.txtArea.Value = vertcat(txt, msg);
+                end
             case 'done'
             otherwise
         end
