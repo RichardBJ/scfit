@@ -1,15 +1,20 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
   <configuration build-checksum="1872553" file="C:\Users\MKO\Kevin\scfit\SCFit.prj" location="C:\Users\MKO\Kevin\scfit" name="SCFit" preferred-package-location="C:\Users\MKO\Kevin\scfit\SCFit\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>SCFit</param.appname>
-    <param.icon />
-    <param.icons />
-    <param.version>0.2</param.version>
+    <param.icon>${PROJECT_ROOT}\SCFit_resources\icon.ico</param.icon>
+    <param.icons>
+      <file>${PROJECT_ROOT}\SCFit_resources\icon_48.png</file>
+      <file>${PROJECT_ROOT}\SCFit_resources\icon_32.png</file>
+      <file>${PROJECT_ROOT}\SCFit_resources\icon_24.png</file>
+      <file>${PROJECT_ROOT}\SCFit_resources\icon_16.png</file>
+    </param.icons>
+    <param.version>0.3</param.version>
     <param.authnamewatermark>Kevin Ogden</param.authnamewatermark>
     <param.email>ogdenkev@gmail.com</param.email>
     <param.company />
     <param.summary>Fit rates in a single channel gating mechanism</param.summary>
     <param.description>Estimate rate constants in a single channel gating mechanism by maximizing the likelihood of a sequence of idealized openings and closing. An exact correction for missed events is used to calculate the likelihood.</param.description>
-    <param.screenshot />
+    <param.screenshot>C:\Users\MKO\Desktop\scfit-square.jpg</param.screenshot>
     <param.guid />
     <param.installpath.string>\SCFit\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
@@ -27,7 +32,7 @@
     <param.web.mcr>true</param.web.mcr>
     <param.package.mcr>false</param.package.mcr>
     <param.no.mcr>false</param.no.mcr>
-    <param.web.mcr.name>SCFitInstaller_web</param.web.mcr.name>
+    <param.web.mcr.name>SCFitInstaller_v0.3_web</param.web.mcr.name>
     <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
     <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
     <param.windows.command.prompt>false</param.windows.command.prompt>
@@ -38,10 +43,7 @@
     <param.example />
     <param.help.text />
     <unset>
-      <param.icon />
-      <param.icons />
       <param.company />
-      <param.screenshot />
       <param.guid />
       <param.installpath.string />
       <param.installpath.combo />

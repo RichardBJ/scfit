@@ -4,3 +4,4 @@ codegen
 *.zip
 *.mexw64
 SCFit/
+SCFit_resources/
