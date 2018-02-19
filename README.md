@@ -1,7 +1,7 @@
 Single channel mechanism fitting
 ================================
 
-12 February 2018
+19 February 2018
 
 
 Description
@@ -13,7 +13,7 @@ This application takes an idealized list of openings and closings from single ch
 Getting Started
 --------------------------------
 
-A standalone GUI application can be [downloaded](https://github.com/ogdenkev/scfit/files/1730513/SCFit_Installer_v0.2.0.zip) and installed -- run SCFitInstaller_web.exe in the zip file, which will install the Matlab runtime and the app.
+A standalone GUI application can be [downloaded](https://github.com/ogdenkev/scfit/releases/download/v0.3.0-alpha/SCFitInstaller_v0.3_web.zip) and installed -- run SCFitInstaller_v0.3_web.exe in the zip file, which will install the Matlab runtime and the app.
 
 To use the source code, add all the folders to the Matlab path. This can be done in the Current Folder window, by selecting all the folders, right clicking and then selecting Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the `SC_ML_fit directory` is `C:\MATLAB\SC_ML_fit` then 
 
