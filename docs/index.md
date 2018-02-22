@@ -1,4 +1,5 @@
-SCFit
-==========
+---
+title: "SCFit"
+---
 
 ![scfit](scfit.jpg)
