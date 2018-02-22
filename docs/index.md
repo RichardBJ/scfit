@@ -2,4 +2,4 @@
 title: "SCFit"
 ---
 
-![scfit](scfit.jpg)
+![scfit](assets/scfit.jpg)

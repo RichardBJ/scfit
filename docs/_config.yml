@@ -1,2 +1,6 @@
+title: SCFit
 theme: jekyll-theme-minimal
 show_downloads: true
+logo: assets/scfit.png
+twitter:
+  username: ogdenkev
