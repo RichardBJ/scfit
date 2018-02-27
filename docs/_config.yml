@@ -4,3 +4,5 @@ show_downloads: true
 logo: assets/scfit.png
 twitter:
   username: ogdenkev
+plugins:
+  - jekyll-feed
