@@ -1,7 +1,7 @@
 Single channel mechanism fitting
 ================================
 
-19 February 2018
+6 August 2018
 
 
 Description
@@ -10,12 +10,24 @@ Description
 This application takes an idealized list of openings and closings from single channel recordings and fits rates in a single channel gating mechanism using an exact correction for missed events. The application is based largely on the work of Hawkes, Jalali, and Colquhoun (1990), Colquhoun and Hawkes (1987) and Hawkes and Jalali (1992).
 
 
-Getting Started
+Installation
 --------------------------------
+
+### Standalone GUI App
 
 A standalone GUI application can be [downloaded](https://github.com/ogdenkev/scfit/releases/download/v0.3.0-alpha/SCFitInstaller_v0.3_web.zip) and installed -- run SCFitInstaller_v0.3_web.exe in the zip file, which will install the Matlab runtime and the app.
 
-To use the source code, add all the folders to the Matlab path. This can be done in the Current Folder window, by selecting all the folders, right clicking and then selecting Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the `SC_ML_fit directory` is `C:\MATLAB\SC_ML_fit` then 
+### Matlab Functions API
+
+For more flexibility and customization of the data processing, use the functions provided in the [source code API]().
+
+Download the repository from GitHub, or clone it:
+
+```
+git clone https://github.com/ogdenkev/scfit
+```
+
+To use the source code, add all the folders to the Matlab path. This can be done using the Current Folder window in the Matlab workspace -- select all the folders, right click and then select Add to Path > Selected Folders and Subfolders. You can also enter `addpath DIRECTORY` from the Matlab command line. For example, if the path to the `SC_ML_fit directory` is `C:\MATLAB\SC_ML_fit` then 
 
 ```
 addpath C:\MATLAB\SC_ML_fit\src C:\MATLAB\SC_ML_fit\SCAN C:\MATLAB\SC_ML_fit\Qmatrix C:\MATLAB\SC_ML_fit\exp_mix_dist
@@ -33,6 +45,43 @@ To compile these functions, add the `build` directory to the Matlab path and the
 
 
 Quick start
+------------------------------------------
+
+```
+%% Load the model
+[q, A, F, idxall, gamma, xi, idxvary, idxconstrain, modelfile, ...
+    statenames] = loadmodel;
+
+%% Read QuB idealizations in dwt format
+[idl_file, path] = uigetfile('*.dwt', 'MultiSelect', 'on');
+[durations, amp] = dwtread([path, idl_file]);
+
+%% Impose the resolution
+td = 0.05;
+[rd, rs] = imposeres(durations, amp, td, td);
+
+%% Concatenate dwell times into contiguous open periods
+% pA for real difference is needed for SCN data but not DWT
+pA_for_real_diff = 2 * max(abs(rs));
+zero_amp = 0;
+[rd, rs] = concatdwells(rd, rs, pA_for_real_diff, zero_amp);
+
+%% Fit rates
+tic;
+[rates, ll, qnew] = hjcfit(rd, q, A, F, td, idxall, idxvary, gamma, xi);
+runtime = toc;
+
+%% Calculate channel properties
+eq_Po = eqoccupy(qnew);
+[opentaus, openareas, shuttaus, shutareas] = qmatopenshutpdf(qnew, A, F);
+
+%% Save results to CSV file
+write_qmatrix_results(modelfile, [path, idl_file], qnew, A, F, ...
+    idxall, idxvary, td, Inf, nDwells, runtime, ll, ...
+    eq_Po, opentaus, openareas, shuttaus, shutareas);
+```
+
+Demos
 ------------------------------------------
 
 This single channel fitting mechanism application comes with several demo datasets and mechanisms. Here we will fit the channel mechanism in Chapter 19 of Single Channel Recording.
