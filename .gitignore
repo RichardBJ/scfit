@@ -5,3 +5,4 @@ codegen
 *.mexw64
 SCFit/
 SCFit_resources/
+RBJfiles/*.*
