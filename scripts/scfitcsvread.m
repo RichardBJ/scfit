@@ -1,6 +1,5 @@
-function [durations,amps]=scfitcsvread(fname)
-si=0.01;
-data=readmatrix(fname,delimiter);
+function [durations,amps]=scfitcsvread(fname,si)
+data=readmatrix(fname);
 [m,n]=size(data);
 if n==1
     disp("1 column, must just be events");

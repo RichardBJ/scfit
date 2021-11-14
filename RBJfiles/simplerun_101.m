@@ -19,7 +19,9 @@ elseif ext==".scn"
         return
         [ durations, amplitudes, properties, calibration, varargout] = scanread( file );
 else 
-    [durations, amp] = scfitcsvread(file,delimiter);  
+    %need to feed it sample interval/dt or si
+    si=0.01; %ms
+    [durations, amp] = scfitcsvread(file,si);  
 end
 
 %% Impose the resolution
