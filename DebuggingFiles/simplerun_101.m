@@ -1,6 +1,6 @@
-%%Demo by Kevin
+%%Demo by Kevin Ogden
 % Need to add the subfolders to path first
-% use prepare.m in project root
+% use prepare.m in project root 
 
 %% Load the model
 [q, A, F, idxall, gamma, xi, idxvary, idxconstrain, modelfile, ...
