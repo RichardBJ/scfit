@@ -1,0 +1,43 @@
+Results from Q matrix maximum likelihood fitting
+Exported on 14-Nov-2021 10:52:52
+
+Model file: C:\Users\Richard\Documents\GitHub\scfit\RBJfiles\Linear_Model_5_states.xlsx
+Idealized data file: claire_004115-158s0-43s.dwt
+Dead Time (ms): 0.050000
+Tcrit (ms): Inf
+Number of Fitted Dwells: 9068
+Runtime (s): 29.50
+
+QMATRIX -- rates in ms-1
+,State1,State2,State3,State4,State5,
+State1,-1.501671e+01,1.501671e+01,0.000000e+00,0.000000e+00,0.000000e+00,
+State2,3.902047e-01,-8.782509e-01,4.880463e-01,0.000000e+00,0.000000e+00,
+State3,0.000000e+00,2.040904e-01,-5.903034e-01,3.862130e-01,0.000000e+00,
+State4,0.000000e+00,0.000000e+00,4.297316e-01,-1.022775e+00,5.930431e-01,
+State5,0.000000e+00,0.000000e+00,0.000000e+00,4.473235e-01,-4.473235e-01,
+
+Log Likelihood, -9.8117e+03
+
+Transition,Rate,Constrain/Free
+1-->2,15.017,Free
+2-->1,0.390,Free
+2-->3,0.488,Free
+3-->2,0.204,Free
+3-->4,0.386,Free
+4-->3,0.430,Free
+4-->5,0.593,Free
+5-->4,0.447,Free
+
+
+State Number,Open/Shut,Equilibrium Occupancy
+1,Shut,3.0876e-03
+2,Shut,1.1883e-01
+3,Shut,2.8415e-01
+4,Open,2.5537e-01
+5,Open,3.3856e-01
+
+
+Open Taus (in ms),6.8929e+00,7.5470e-01
+Open Areas,7.5876e-01,2.4124e-01
+Shut Taus (in ms),4.6266e+00,1.1775e+00,6.4851e-02
+Shut Areas,7.3139e-01,2.6861e-01,3.0615e-07
